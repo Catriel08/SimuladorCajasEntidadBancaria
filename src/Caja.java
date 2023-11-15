@@ -5,16 +5,18 @@ public class Caja {
     private double montoFinal;
     private String tipoTransaccion;
     private int totalClientesAtendidos;
+    private int clientesPorAtender;
     private int totalTiempoEspera;
     private int totalTiempoAtencion;
 
 
-    public Caja(String identificador, double montoInicial, double montoFinal, String tipoTransaccion, int totalClientesAtendidos, int totalTiempoEspera, int totalTiempoAtencion) {
+    public Caja(String identificador, double montoInicial, double montoFinal, String tipoTransaccion, int totalClientesAtendidos, int clientesPorAtender, int totalTiempoEspera, int totalTiempoAtencion) {
         this.identificador = identificador;
         this.montoInicial = montoInicial;
         this.montoFinal = montoFinal;
         this.tipoTransaccion = tipoTransaccion;
         this.totalClientesAtendidos = totalClientesAtendidos;
+        this.clientesPorAtender = clientesPorAtender;
         this.totalTiempoEspera = totalTiempoEspera;
         this.totalTiempoAtencion = totalTiempoAtencion;
     }
@@ -25,6 +27,7 @@ public class Caja {
         this.montoFinal = 0;
         this.tipoTransaccion = "";
         this.totalClientesAtendidos = 0;
+        this.clientesPorAtender = 0;
         this.totalTiempoEspera = 0;
         this.totalTiempoAtencion = 0;
     }
@@ -69,6 +72,14 @@ public class Caja {
         this.totalClientesAtendidos = totalClientesAtendidos;
     }
 
+    public int getClientesPorAtender() {
+        return clientesPorAtender;
+    }
+
+    public void setClientesPorAtender(int clientesPorAtender) {
+        this.clientesPorAtender = clientesPorAtender;
+    }
+
     public int getTotalTiempoEspera() {
         return totalTiempoEspera;
     }
@@ -97,4 +108,5 @@ public class Caja {
                 ", totalTiempoAtencion=" + totalTiempoAtencion +
                 '}';
     }
+
 }
