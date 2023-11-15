@@ -1,6 +1,6 @@
-==========================================================
-R E P O R T E  B A N C O ==== P L A T A  O  P L O M O ====
-==========================================================
+===========================================================
+R E P O R T E  B A N C O ==== S E R E N E T Y  B A N K ====
+===========================================================
 Caja: 1222
 Transacciones atendidas: retiro
 Dinero inicial: $ 130.000,00
@@ -8,7 +8,7 @@ Dinero actual: $ 120.000,00
 Dinero final: $ 120.000,00
 Número de clientes atendidos: 1
 Clientes por atender: 4
-==========================================================
+===========================================================
 Caja: 3333
 Transacciones atendidas: pago de servicios
 Dinero inicial: $ 1.750.000,00
@@ -16,7 +16,7 @@ Dinero actual: $ 1.162.000,00
 Dinero final: $ 1.162.000,00
 Número de clientes atendidos: 2
 Clientes por atender: 2
-==========================================================
+===========================================================
 Caja: 4444
 Transacciones atendidas: consignacion
 Dinero inicial: $ 300.000,00
@@ -24,7 +24,7 @@ Dinero actual: $ 813.000,00
 Dinero final: $ 813.000,00
 Número de clientes atendidos: 0
 Clientes por atender: 1
-==========================================================
+===========================================================
 Caja: 8888
 Transacciones atendidas: retiro
 Dinero inicial: $ 1.500.000,00
@@ -32,6 +32,6 @@ Dinero actual: $ 1.215.000,00
 Dinero final: $ 1.215.000,00
 Número de clientes atendidos: 0
 Clientes por atender: 3
-==========================================================
+===========================================================
             F I N  D E L  R E P O R T E
-==========================================================
+===========================================================

@@ -558,9 +558,9 @@ public class Banco {
         {
             PrintWriter writer = new PrintWriter(reporte);
 
-            writer.println("==========================================================");
-            writer.println("R E P O R T E  B A N C O ==== P L A T A  O  P L O M O ====");
-            writer.println("==========================================================");
+            writer.println("===========================================================");
+            writer.println("R E P O R T E  B A N C O ==== S E R E N E T Y  B A N K ====");
+            writer.println("===========================================================");
 
             for(int i = 0; i< cajas.size(); i++)
             {
@@ -588,10 +588,10 @@ public class Banco {
                 writer.println("Dinero final: " + nf.format(montoFinal));
                 writer.println("Número de clientes atendidos: " + totalClientesAtendidos);
                 writer.println("Clientes por atender: " + clientesPorAtender);
-                writer.println("==========================================================");
+                writer.println("===========================================================");
             }
             writer.println("            F I N  D E L  R E P O R T E");
-            writer.println("==========================================================");
+            writer.println("===========================================================");
 
             writer.close();
 
