@@ -1,17 +1,24 @@
 ==========================================================
-R E P O R T E  B A N C O -- P L A T A  O  P L O M O --
+R E P O R T E  B A N C O ==== P L A T A  O  P L O M O ====
 ==========================================================
 Caja: 1222
 Transacciones atendidas: retiro
-Dinero inicial: 150000.0
-Dinero final: 0.0
+Dinero inicial: 130000.0
+Dinero final: 30000.0
 Número de clientes atendidos: 0
-Clientes por atender: 0
+Clientes por atender: 3
 ==========================================================
 Caja: 3333
 Transacciones atendidas: transacción
 Dinero inicial: 75000.0
-Dinero final: 0.0
+Dinero final: 75000.0
+Número de clientes atendidos: 0
+Clientes por atender: 0
+==========================================================
+Caja: 4444
+Transacciones atendidas: consignación
+Dinero inicial: 300000.0
+Dinero final: 300000.0
 Número de clientes atendidos: 0
 Clientes por atender: 0
 ==========================================================

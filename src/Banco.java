@@ -4,14 +4,15 @@ import java.io.*;
 public class Banco {
     private  ArrayList cajas;
     private ArrayList clientes;
+
     Scanner leer = new Scanner(System.in);
     File cargarCajas = new File("C:\\Users\\Brayan\\IdeaProjects\\SimuladorCajasEntidadBancaria\\Txt_Banco\\Cajas.txt");
     File cargarClientes = new File("C:\\Users\\Brayan\\IdeaProjects\\SimuladorCajasEntidadBancaria\\Txt_Banco\\Clientes.txt");
     File reporte = new File("C:\\Users\\Brayan\\IdeaProjects\\SimuladorCajasEntidadBancaria\\Txt_Banco\\ReporteCajasBanco.txt");
 
     public Banco() {
-        cajas = new ArrayList<>();
-        clientes = new ArrayList<>();
+        this.cajas = new ArrayList<>();
+        this.clientes = new ArrayList<>();
         cargarCajasBancariasTxt();
         cargarClientesTxt();
 
@@ -23,7 +24,7 @@ public class Banco {
             System.out.println("3. Agregar caja al banco");
             System.out.println("4. Eliminar caja por su identificador");
             System.out.println("5. Agregar cliente");
-            System.out.println("6. Buscar cliente por su identificador");
+            System.out.println("6. Buscar cliente por su nombre");
             System.out.println("7. Despachar cliente");
             System.out.println("8. Imprimir reporte");
             System.out.println("9. Salir");
@@ -48,12 +49,13 @@ public class Banco {
                     agregarCliente();
                     break;
                 case 6:
-                    buscarClientePorIdentificador();
+                    buscarClientePorNombre();
                     break;
                 case 7:
                     despacharCliente();
                     break;
                 case 8:
+                    guardarCajasTxt();
                     imprimirReporteTxt();
                     break;
                 case 9:
@@ -76,7 +78,6 @@ public class Banco {
         int clientesPorAtender;
         int totalTiempoEspera;
         int totalTiempoAtencion;
-        //contador++;
 
         System.out.println("Ingrese el identificador de la caja: ");
         identificador = leer.nextLine();
@@ -84,26 +85,15 @@ public class Banco {
         System.out.println("Ingrese el monto inicial de la caja: ");
         montoInicial = Integer.parseInt(leer.nextLine());
 
+
         System.out.println("Ingrese el tipo de transacción que va a atender la caja: ");
         tipoTransaccion = leer.nextLine();
 
-        Caja nuevaCaja = new Caja(identificador,montoInicial, montoFinal,tipoTransaccion,totalClientesAtendidos,clientesPorAtender,totalTiempoEspera,totalTiempoAtencion);
 
-        // Agregar la nueva caja a la lista
+        Caja nuevaCaja = new Caja(identificador,montoInicial,montoFinal=montoInicial,tipoTransaccion,0,0);
         cajas.add(nuevaCaja);
 
-        System.out.println("Caja agregada correctamente.");
-
-//        Caja caja1 = new Caja("1224",150.000, 0,"retiro",0,0,0,0);
-//        cajas.add(caja1);
-//
-//        Caja caja2 = new Caja("5020",100.000, 0,"consignación",0,0,0,0);
-//        cajas.add(caja2);
-//
-//        Caja caja3 = new Caja("4433",250.000, 0,"pago de servicios",0,0,0,0);
-//        cajas.add(caja3);
-
-
+        System.out.println("\nCaja agregada correctamente.");
 
     }
 
@@ -170,7 +160,7 @@ public class Banco {
             writer.println(totalcajas);
             for(int i = 0; i< cajas.size(); i++)
             {
-                banco =(Caja) cajas.get(i);
+                banco = (Caja) cajas.get(i);
 
                 identificador = banco.getIdentificador();
                 montoInicial = banco.getMontoInicial();
@@ -178,8 +168,6 @@ public class Banco {
                 tipoTransaccion = banco.getTipoTransaccion();
                 totalClientesAtendidos = banco.getTotalClientesAtendidos();
                 clientesPorAtender = banco.getClientesPorAtender();
-                totalTiempoEspera = banco.getTotalTiempoEspera();
-                totalTiempoAtencion = banco.getTotalTiempoAtencion();
 
                 writer.println(identificador);
                 writer.println(montoInicial);
@@ -187,13 +175,11 @@ public class Banco {
                 writer.println(tipoTransaccion);
                 writer.println(totalClientesAtendidos);
                 writer.println(clientesPorAtender);
-                writer.println(totalTiempoEspera);
-                writer.println(totalTiempoAtencion);
 
             }
 
             writer.close();
-            System.out.println("Se agregó y guardó correctamente caja");
+            System.out.println("\nSe guardó correctamente el cambio");
         }
         catch(Exception e)
         {
@@ -210,8 +196,6 @@ public class Banco {
         String tipoTransaccion;
         int totalClientesAtendidos;
         int clientesPorAtender;
-        int totalTiempoEspera;
-        int totalTiempoAtencion;
 
         Caja banco;
         String linea = " ";
@@ -231,10 +215,8 @@ public class Banco {
                 tipoTransaccion = bufer.readLine();
                 totalClientesAtendidos = Integer.parseInt(bufer.readLine());
                 clientesPorAtender = Integer.parseInt(bufer.readLine());
-                totalTiempoEspera = Integer.parseInt(bufer.readLine());
-                totalTiempoAtencion = Integer.parseInt(bufer.readLine());
 
-                banco = new Caja(identificador, montoInicial, montoFinal, tipoTransaccion, totalClientesAtendidos, clientesPorAtender, totalTiempoEspera, totalTiempoAtencion);
+                banco = new Caja(identificador, montoInicial, montoFinal, tipoTransaccion, totalClientesAtendidos, clientesPorAtender);
                 cajas.add(banco);
             }
 
@@ -265,8 +247,6 @@ public class Banco {
             System.out.println("Tipo de transacción: " + call.getTipoTransaccion());
             System.out.println("Total clientes atendidos: " + call.getTotalClientesAtendidos());
             System.out.println("Clientes por atender: " + call.getClientesPorAtender());
-            System.out.println("Tiempo total de espera " + call.getTotalTiempoEspera());
-            System.out.println("Tiempo total de atención: " + call.getTotalTiempoAtencion() + " segundos");
 
         }
     }
@@ -284,17 +264,165 @@ public class Banco {
 
     public void eliminarCajaPorIdentificador()
     {
+        String identificador;
+        Caja caja;
+        String opcion;
+
+        Caja banco;
+        boolean cajaEncontrada = false;
+
+        // Le pedimos al usuario el identificador para buscar la caja
+        System.out.println("Ingrese el identificador de la caja que desea eliminar:");
+        identificador = leer.nextLine();
+
+        // Iteramos todas las cajas y encontramos la caja que el usuario está buscando con el "identificador"
+        for (int i = 0; i < cajas.size(); i++) {
+            banco = (Caja) cajas.get(i);
+
+            // Utilizamos el objeto "banco" en lugar de la lista "cajas" en el if
+            if (banco.getIdentificador().equals(identificador)) {
+                System.out.println("¿Está seguro que desea eliminar la caja con el identificador " + identificador + "? (Y/N)");
+                opcion = leer.nextLine();
+
+                // Si la respuesta es "Y", entonces eliminará la caja
+                if (opcion.equalsIgnoreCase("Y")) {
+                    cajas.remove(i);
+                    guardarCajasTxt();
+                    System.out.println("\nLa caja con el identificador " + identificador + " ha sido eliminada correctamente");
+
+                } else if (opcion.equalsIgnoreCase("N")) {
+                    System.out.println("\nOperación cancelada, volviendo al menú principal...");
+                } else {
+                    System.out.println("\nOpción no válida. Operación cancelada, volviendo al menú principal...");
+                }
+                // Se encontró la caja, establecer la variable a true
+                cajaEncontrada = true;
+                // Terminamos el bucle después de encontrar y procesar la caja
+                break;
+            }
+        }
+
+        // Mensaje adicional si la caja no fue encontrada
+        if (!cajaEncontrada) {
+            System.out.println("\nLa caja con el identificador " + identificador + " no existe en el banco.");
+        }
 
     }
 
     public void agregarCliente()
     {
+        Caja banco;
+        System.out.println("Ingrese el nombre del cliente:");
+        String nombreCliente = leer.nextLine();
 
+        System.out.println("Ingrese el tipo de transacción que desea realizar (Retiro/Consignación/Pago de servicios):");
+        String tipoTransaccionCliente = leer.nextLine();
+
+        Cliente nuevoCliente = new Cliente(nombreCliente, tipoTransaccionCliente);
+
+        // Encontrar la caja con el menor número de clientes en espera para el tipo de transacción del nuevo cliente
+        Caja cajaSeleccionada = null;
+        int minClientesEnEspera = Integer.MAX_VALUE;
+
+        for (int i = 0; i < cajas.size(); i++) {
+            banco = (Caja)  cajas.get(i);
+
+            // Verificar si la caja atiende el tipo de transacción del nuevo cliente
+            if (banco.getTipoTransaccion().equalsIgnoreCase(tipoTransaccionCliente)) {
+                int clientesEnEspera = banco.getClientesPorAtender();
+
+                // Verificar si la caja tiene menos clientes en espera que la mínima actual
+                if (clientesEnEspera < minClientesEnEspera) {
+                    minClientesEnEspera = clientesEnEspera;
+                    cajaSeleccionada = banco;
+                }
+            }
+        }
+
+        // Asignar al nuevo cliente a la caja seleccionada
+        if (cajaSeleccionada != null) {
+            cajaSeleccionada.agregarClienteEnEspera(nuevoCliente);
+            cajaSeleccionada.incrementarClientesPorAtender();  // Incrementar la cuenta de clientes por atender en la caja
+
+            // Procesar la transacción según el tipo
+            switch (tipoTransaccionCliente.toLowerCase()) {
+                case "retiro":
+                    System.out.println("Ingrese la cantidad de dinero a retirar:");
+                    double cantidadRetirar = Double.parseDouble(leer.nextLine());
+                    if (cantidadRetirar <= cajaSeleccionada.getMontoInicial()) {
+                        System.out.println("Cliente " + nombreCliente + " asignado a la caja " + cajaSeleccionada.getIdentificador());
+                        //cajaSeleccionada.setMontoInicial(cajaSeleccionada.getMontoInicial() - cantidadRetirar);
+                        cajaSeleccionada.setMontoFinal(cajaSeleccionada.getMontoFinal() - cantidadRetirar);
+                        System.out.println("Retiro exitoso. Nuevo monto en la caja: " + cajaSeleccionada.getMontoFinal());
+                    } else {
+                        System.out.println("Cliente " + nombreCliente + " asignado a la caja " + cajaSeleccionada.getIdentificador());
+                        System.out.println("No hay suficiente dinero en la caja para el retiro solicitado.");
+                    }
+                    break;
+
+                case "consignación":
+                    System.out.println("Ingrese la cantidad a consignar:");
+                    double cantidadConsignar = Double.parseDouble(leer.nextLine());
+                    //cajaSeleccionada.setMontoInicial(cajaSeleccionada.getMontoInicial() + cantidadConsignar);
+                    cajaSeleccionada.setMontoFinal(cajaSeleccionada.getMontoFinal() + cantidadConsignar);
+                    System.out.println("Cliente " + nombreCliente + " asignado a la caja " + cajaSeleccionada.getIdentificador());
+                    System.out.println("Consignación exitosa. Nuevo monto en la caja: " + cajaSeleccionada.getMontoFinal());
+                    break;
+
+                case "pago de servicios":
+                    System.out.println("Ingrese la cantidad a pagar:");
+                    double cantidadPagar = Double.parseDouble(leer.nextLine());
+                    if (cantidadPagar <= cajaSeleccionada.getMontoInicial()) {
+                        System.out.println("Cliente " + nombreCliente + " asignado a la caja " + cajaSeleccionada.getIdentificador());
+                        //cajaSeleccionada.setMontoInicial(cajaSeleccionada.getMontoInicial() + cantidadPagar);
+                        cajaSeleccionada.setMontoFinal(cajaSeleccionada.getMontoFinal() + cantidadPagar);
+                        System.out.println("Pago de servicios exitoso. Nuevo monto en la caja: " + cajaSeleccionada.getMontoFinal());
+                    } else {
+                        System.out.println("Cliente " + nombreCliente + " asignado a la caja " + cajaSeleccionada.getIdentificador());
+                        System.out.println("No hay suficiente dinero en la caja para el pago de servicios solicitado.");
+                    }
+                    break;
+
+                default:
+                    System.out.println("Tipo de transacción no reconocido.");
+            }
+
+            System.out.println("Cliente " + nombreCliente + " asignado a la caja " + cajaSeleccionada.getIdentificador());
+        } else {
+            System.out.println("No hay cajas disponibles para el tipo de transacción del cliente " + nombreCliente);
+        }
     }
 
-    public void buscarClientePorIdentificador()
-    {
 
+    public void buscarClientePorNombre()
+    {
+        String identificadorCliente;
+        Cliente cliente = null;
+        Cliente banco;
+        boolean clienteEncontrado = false;
+
+        // Le pedimos al usuario el identificador para buscar el cliente
+        System.out.println("Ingrese el identificador del cliente que desea buscar:");
+        identificadorCliente = leer.nextLine();
+
+        // Iteramos todas los clientes y buscamos el cliente por identificador
+        for (int i = 0; i < clientes.size(); i++) {
+            banco = (Cliente) clientes.get(i);
+
+            // Utilizamos el objeto "banco" en lugar de la lista "clientes" en el if
+            if (banco.getNombre().equalsIgnoreCase(identificadorCliente)) {
+                System.out.println("\nCliente encontrado:");
+                System.out.println("Identificador: " + banco.getNombre());
+                System.out.println("Tipo de Transacción: " + banco.getTipoTransaccionCliente());
+                clienteEncontrado = true;
+                break;
+            }
+        }
+
+        // Mensaje adicional si el cliente no fue encontrado
+        if (!clienteEncontrado) {
+            System.out.println("Cliente con el identificador " + identificadorCliente + " no encontrado en el banco.");
+        }
     }
 
     public void despacharCliente()
@@ -320,7 +448,7 @@ public class Banco {
             PrintWriter writer = new PrintWriter(reporte);
 
             writer.println("==========================================================");
-            writer.println("R E P O R T E  B A N C O -- P L A T A  O  P L O M O --");
+            writer.println("R E P O R T E  B A N C O ==== P L A T A  O  P L O M O ====");
             writer.println("==========================================================");
 
             for(int i = 0; i< cajas.size(); i++)

@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Caja {
 
     private String identificador;
@@ -6,19 +9,16 @@ public class Caja {
     private String tipoTransaccion;
     private int totalClientesAtendidos;
     private int clientesPorAtender;
-    private int totalTiempoEspera;
-    private int totalTiempoAtencion;
+    private List<Cliente> clientesEnEspera;
 
-
-    public Caja(String identificador, double montoInicial, double montoFinal, String tipoTransaccion, int totalClientesAtendidos, int clientesPorAtender, int totalTiempoEspera, int totalTiempoAtencion) {
+    public Caja(String identificador, double montoInicial, double montoFinal, String tipoTransaccion, int totalClientesAtendidos, int clientesPorAtender) {
         this.identificador = identificador;
         this.montoInicial = montoInicial;
         this.montoFinal = montoFinal;
         this.tipoTransaccion = tipoTransaccion;
         this.totalClientesAtendidos = totalClientesAtendidos;
         this.clientesPorAtender = clientesPorAtender;
-        this.totalTiempoEspera = totalTiempoEspera;
-        this.totalTiempoAtencion = totalTiempoAtencion;
+        this.clientesEnEspera = new ArrayList<>();
     }
 
     public Caja() {
@@ -28,8 +28,15 @@ public class Caja {
         this.tipoTransaccion = "";
         this.totalClientesAtendidos = 0;
         this.clientesPorAtender = 0;
-        this.totalTiempoEspera = 0;
-        this.totalTiempoAtencion = 0;
+    }
+
+    public void agregarClienteEnEspera(Cliente cliente) {
+        clientesEnEspera.add(cliente);
+    }
+
+    public void incrementarClientesPorAtender() {
+        // Incrementar el contador de clientes por atender
+        clientesPorAtender++;
     }
 
     public String getIdentificador() {
@@ -80,21 +87,6 @@ public class Caja {
         this.clientesPorAtender = clientesPorAtender;
     }
 
-    public int getTotalTiempoEspera() {
-        return totalTiempoEspera;
-    }
-
-    public void setTotalTiempoEspera(int totalTiempoEspera) {
-        this.totalTiempoEspera = totalTiempoEspera;
-    }
-
-    public int getTotalTiempoAtencion() {
-        return totalTiempoAtencion;
-    }
-
-    public void setTotalTiempoAtencion(int totalTiempoAtencion) {
-        this.totalTiempoAtencion = totalTiempoAtencion;
-    }
 
     @Override
     public String toString() {
@@ -104,8 +96,6 @@ public class Caja {
                 ", montoFinal=" + montoFinal +
                 ", tipoTransaccion='" + tipoTransaccion + '\'' +
                 ", totalClientesAtendidos=" + totalClientesAtendidos +
-                ", totalTiempoEspera=" + totalTiempoEspera +
-                ", totalTiempoAtencion=" + totalTiempoAtencion +
                 '}';
     }
 
