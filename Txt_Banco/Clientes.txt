@@ -1,9 +1,33 @@
-4
+8
+1014657781
 Brayan
 retiro
+1500000.0
+1121738444
 Dylan
 consignación
+2500000.0
+98521447513
 Juan Carlos
 pago de servicios
+1700000.0
+7477456695
 Gorge
 retiro
+1000000.0
+77778452254
+Wilder
+retiro
+3000000.0
+88777411124
+Julian
+pago de servicios
+100.0
+9998885512
+Santiago
+pago de servicios
+463000.0
+777411112
+Miguel
+consignacion
+257000.0

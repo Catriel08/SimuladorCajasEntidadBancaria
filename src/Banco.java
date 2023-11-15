@@ -1,10 +1,11 @@
+import java.text.NumberFormat;
 import java.util.*;
 import java.io.*;
 
 public class Banco {
     private  ArrayList cajas;
     private ArrayList clientes;
-
+    NumberFormat nf = NumberFormat.getCurrencyInstance();
     Scanner leer = new Scanner(System.in);
     File cargarCajas = new File("C:\\Users\\Brayan\\IdeaProjects\\SimuladorCajasEntidadBancaria\\Txt_Banco\\Cajas.txt");
     File cargarClientes = new File("C:\\Users\\Brayan\\IdeaProjects\\SimuladorCajasEntidadBancaria\\Txt_Banco\\Clientes.txt");
@@ -26,8 +27,7 @@ public class Banco {
             System.out.println("5. Agregar cliente");
             System.out.println("6. Buscar cliente por su nombre");
             System.out.println("7. Despachar cliente");
-            System.out.println("8. Imprimir reporte");
-            System.out.println("9. Salir");
+            System.out.println("8. Salir y guardar reporte");
             System.out.println("\nIngrese una opción: ");
 
             switch (Integer.parseInt(leer.nextLine()))
@@ -47,6 +47,7 @@ public class Banco {
                     break;
                 case 5:
                     agregarCliente();
+                    guardarClientesTxt();
                     break;
                 case 6:
                     buscarClientePorNombre();
@@ -55,16 +56,14 @@ public class Banco {
                     despacharCliente();
                     break;
                 case 8:
+                    guardarClientesTxt();
                     guardarCajasTxt();
                     imprimirReporteTxt();
-                    break;
-                case 9:
-                    System.out.println("La transaccion fue exitosa");
+                    System.out.println("\nLa transaccion fue exitosa");
                     System.out.println("Vuelva pronto");
                     System.exit(0);
                     leer.close();
                     break;
-
             }
         }
     }
@@ -86,7 +85,7 @@ public class Banco {
         identificador = leer.nextLine();
 
         System.out.println("Ingrese el monto inicial de la caja: ");
-        montoInicial = Integer.parseInt(leer.nextLine());
+        montoInicial = Double.parseDouble(nf.format(leer.nextLine()));
 
 
         System.out.println("Ingrese el tipo de transacción que va a atender la caja: ");
@@ -104,7 +103,9 @@ public class Banco {
     {
         int cont;
         String identificador;
+        String nombre;
         String tipoTransaccionCliente;
+        double saldoCuentaCliente;
 
 
         Cliente banco;
@@ -118,11 +119,16 @@ public class Banco {
             cont = Integer.parseInt(linea);
 
             for (int i = 0; i < cont; i++) {
+
                 identificador = bufer.readLine();
+
+                nombre = bufer.readLine();
 
                 tipoTransaccionCliente = bufer.readLine();
 
-                banco = new Cliente(identificador, tipoTransaccionCliente);
+                saldoCuentaCliente = Double.parseDouble(bufer.readLine());
+
+                banco = new Cliente(identificador,nombre, tipoTransaccionCliente,saldoCuentaCliente);
                 clientes.add(banco);
             }
 
@@ -193,6 +199,46 @@ public class Banco {
         }
     }
 
+    public void guardarClientesTxt()
+    {
+        int totalClientes;
+
+        String identificadorCliente;
+        String nombre;
+        String tipoTransaccionCliente;
+        double saldoCuentaCliente;
+
+        Cliente banco;
+        try
+        {
+            PrintWriter writer = new PrintWriter(cargarClientes);
+            totalClientes = clientes.size();
+            writer.println(totalClientes);
+            for(int i = 0; i< clientes.size(); i++)
+            {
+                banco = (Cliente) clientes.get(i);
+
+                identificadorCliente = banco.getIdentificadorCliente();
+                nombre = banco.getNombre();
+                tipoTransaccionCliente = banco.getTipoTransaccionCliente();
+                saldoCuentaCliente = banco.getSaldoCuentaCliente();
+
+                writer.println(identificadorCliente);
+                writer.println(nombre);
+                writer.println(tipoTransaccionCliente);
+                writer.println(saldoCuentaCliente);
+
+            }
+
+            writer.close();
+            System.out.println("\nSe guardó correctamente el cambio");
+        }
+        catch(Exception e)
+        {
+            System.out.println("error al escribir en el archivo");
+        }
+    }
+
     public void cargarCajasBancariasTxt()
     {
         int cont;
@@ -250,9 +296,9 @@ public class Banco {
         for (int i = 0; i < cajas.size(); i++) {
             call = (Caja) cajas.get(i);
             System.out.println("\nIdentificador: " + call.getIdentificador());
-            System.out.println("Monto inicial: " + call.getMontoInicial());
-            System.out.println("Monto Actual: " + call.getMontoActual());
-            System.out.println("Monto final: " + call.getMontoFinal());
+            System.out.println("Monto inicial: " + nf.format(call.getMontoInicial()));
+            System.out.println("Monto Actual: " + nf.format(call.getMontoActual()));
+            System.out.println("Monto final: " + nf.format(call.getMontoActual()));
             System.out.println("Tipo de transacción: " + call.getTipoTransaccion());
             System.out.println("Total clientes atendidos: " + call.getTotalClientesAtendidos());
             System.out.println("Clientes por atender: " + call.getClientesPorAtender());
@@ -266,8 +312,10 @@ public class Banco {
 
         for (int i = 0; i < clientes.size(); i++){
             call = (Cliente) clientes.get(i);
-            System.out.println("\nNombre: " + call.getNombre());
+            System.out.println("\nIdentificador: " + call.getIdentificadorCliente());
+            System.out.println("Nombre: " + call.getNombre());
             System.out.println("Transacción cliente: " + call.getTipoTransaccionCliente());
+            System.out.println("Saldo en cuenta del cliente: " + nf.format(call.getSaldoCuentaCliente()));
         }
     }
 
@@ -325,13 +373,20 @@ public class Banco {
     public void agregarCliente()
     {
         Caja banco;
+
+        System.out.println("Ingrese el identificador del cliente: ");
+        String identificadorCliente = leer.nextLine();
+
         System.out.println("Ingrese el nombre del cliente:");
         String nombreCliente = leer.nextLine();
 
-        System.out.println("Ingrese el tipo de transacción que desea realizar (Retiro/Consignación/Pago de servicios):");
+        System.out.println("Ingrese el tipo de transacción que desea realizar (Retiro/Consignacion/Pago de servicios):");
         String tipoTransaccionCliente = leer.nextLine();
 
-        Cliente nuevoCliente = new Cliente(nombreCliente, tipoTransaccionCliente);
+        System.out.println("Ingrese el saldo en la cuenta del cliente: ");
+        double saldoCuentaCliente = Double.parseDouble(leer.nextLine());
+
+        Cliente nuevoCliente = new Cliente(identificadorCliente,nombreCliente,tipoTransaccionCliente,saldoCuentaCliente);
 
         // Encontrar la caja con el menor número de clientes en espera para el tipo de transacción del nuevo cliente
         Caja cajaSeleccionada = null;
@@ -362,34 +417,44 @@ public class Banco {
                 case "retiro":
                     System.out.println("Ingrese la cantidad de dinero a retirar:");
                     double cantidadRetirar = Double.parseDouble(leer.nextLine());
-                    if (cantidadRetirar <= cajaSeleccionada.getMontoInicial()) {
-                        //System.out.println("Cliente " + nombreCliente + " asignado a la caja " + cajaSeleccionada.getIdentificador());
+                    if (cantidadRetirar <= cajaSeleccionada.getMontoInicial() && nuevoCliente.getSaldoCuentaCliente() >= cantidadRetirar) {
+                        nuevoCliente.setSaldoCuentaCliente(nuevoCliente.getSaldoCuentaCliente() - cantidadRetirar);
                         cajaSeleccionada.setMontoActual(cajaSeleccionada.getMontoActual() - cantidadRetirar);
                         cajaSeleccionada.setMontoFinal(cajaSeleccionada.getMontoFinal() - cantidadRetirar);
                         System.out.println("\nRetiro exitoso. Nuevo monto en la caja: " + cajaSeleccionada.getMontoFinal());
                     } else {
+                        System.out.println("No tiene suficiente dinero en la cuenta para retirar o no hay suficiente dinero en la caja para el retiro solicitado");
                         System.out.println("Cliente " + nombreCliente + " fue asignado a la caja " + cajaSeleccionada.getIdentificador());
                         //System.out.println("No hay suficiente dinero en la caja para el retiro solicitado.");
                     }
                     break;
 
-                case "consignación":
+                case "consignacion":
                     System.out.println("Ingrese la cantidad a consignar:");
                     double cantidadConsignar = Double.parseDouble(leer.nextLine());
-                    cajaSeleccionada.setMontoActual(cajaSeleccionada.getMontoActual() + cantidadConsignar);
-                    cajaSeleccionada.setMontoFinal(cajaSeleccionada.getMontoFinal() + cantidadConsignar);
-                    System.out.println("\nCliente " + nombreCliente + " fue asignado a la caja " + cajaSeleccionada.getIdentificador());
-                    System.out.println("Consignación exitosa. Nuevo monto en la caja: " + cajaSeleccionada.getMontoFinal());
+                    if (nuevoCliente.getSaldoCuentaCliente() >= cantidadConsignar) {
+                        nuevoCliente.setSaldoCuentaCliente(nuevoCliente.getSaldoCuentaCliente() - cantidadConsignar);
+                        cajaSeleccionada.setMontoActual(cajaSeleccionada.getMontoActual() + cantidadConsignar);
+                        cajaSeleccionada.setMontoFinal(cajaSeleccionada.getMontoFinal() + cantidadConsignar);
+                        System.out.println("\nCliente " + nombreCliente + " fue asignado a la caja " + cajaSeleccionada.getIdentificador());
+                        System.out.println("Consignación exitosa. Nuevo monto en la caja: " + cajaSeleccionada.getMontoFinal());
+                    }else {
+                        System.out.println("No tiene suficiente dinero en la cuenta para consignar");
+                    }
                     break;
 
                 case "pago de servicios":
                     System.out.println("Ingrese la cantidad a pagar:");
                     double cantidadPagar = Double.parseDouble(leer.nextLine());
-
+                    if (nuevoCliente.getSaldoCuentaCliente() >= cantidadPagar) {
                         System.out.println("Cliente " + nombreCliente + " fue asignado a la caja " + cajaSeleccionada.getIdentificador());
+                        nuevoCliente.setSaldoCuentaCliente(nuevoCliente.getSaldoCuentaCliente() - cantidadPagar);
                         cajaSeleccionada.setMontoActual(cajaSeleccionada.getMontoActual() + cantidadPagar);
                         cajaSeleccionada.setMontoFinal(cajaSeleccionada.getMontoFinal() + cantidadPagar);
                         System.out.println("\nPago de servicios exitoso. Nuevo monto en la caja: " + cajaSeleccionada.getMontoFinal());
+                    }else {
+                        System.out.println("No tiene suficiente dinero en la cuenta para pagar los servicios");
+                    }
                     break;
 
                 default:
@@ -397,6 +462,8 @@ public class Banco {
             }
 
             System.out.println("Cliente " + nombreCliente + " fue asignado a la caja " + cajaSeleccionada.getIdentificador());
+            clientes.add(nuevoCliente);
+            System.out.println("Cliente " + nombreCliente + " fue agregado a la lista de clientes.");
         } else {
             System.out.println("No hay cajas disponibles para el tipo de transacción del cliente " + nombreCliente);
         }
@@ -516,9 +583,9 @@ public class Banco {
 
                 writer.println("Caja: " + identificador);
                 writer.println("Transacciones atendidas: " + tipoTransaccion);
-                writer.println("Dinero inicial: " + montoInicial);
-                writer.println("Dinero actual: " + montoActual);
-                writer.println("Dinero final: " + montoFinal);
+                writer.println("Dinero inicial: " + nf.format(montoInicial));
+                writer.println("Dinero actual: " + nf.format(montoActual));
+                writer.println("Dinero final: " + nf.format(montoFinal));
                 writer.println("Número de clientes atendidos: " + totalClientesAtendidos);
                 writer.println("Clientes por atender: " + clientesPorAtender);
                 writer.println("==========================================================");
