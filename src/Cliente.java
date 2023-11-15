@@ -1,27 +1,16 @@
 public class Cliente {
 
-    private String identificador;
     private String nombre;
-    private String tipoTransaccion;
+    private String tipoTransaccionCliente;
 
-    public Cliente(String identificador, String nombre, String tipoTransaccion) {
-        this.identificador = identificador;
+    public Cliente(String nombre, String tipoTransaccionCliente) {
         this.nombre = nombre;
-        this.tipoTransaccion = tipoTransaccion;
+        this.tipoTransaccionCliente = tipoTransaccionCliente;
     }
 
     public Cliente() {
-        this.identificador = "";
         this.nombre = "";
-        this.tipoTransaccion = "";
-    }
-
-    public String getIdentificador() {
-        return identificador;
-    }
-
-    public void setIdentificador(String identificador) {
-        this.identificador = identificador;
+        this.tipoTransaccionCliente = "";
     }
 
     public String getNombre() {
@@ -32,19 +21,18 @@ public class Cliente {
         this.nombre = nombre;
     }
 
-    public String getTipoTransaccion() {
-        return tipoTransaccion;
+    public String getTipoTransaccionCliente() {
+        return tipoTransaccionCliente;
     }
 
-    public void setTipoTransaccion(String tipoTransaccion) {
-        this.tipoTransaccion = tipoTransaccion;
+    public void setTipoTransaccionCliente(String tipoTransaccionCliente) {
+        this.tipoTransaccionCliente = tipoTransaccionCliente;
     }
 
     @Override
     public String toString() {
-        return "\nCliente: " +
-                " Identificador: " + identificador +
+        return "\nCliente: "+
                 " Nombre: " + nombre +
-                " TipoTransaccion: " + tipoTransaccion;
+                " TipoTransaccion cliente: " + tipoTransaccionCliente;
     }
 }

@@ -1,27 +1,32 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class Caja {
 
     private String identificador;
     private double montoInicial;
-    private double montoActual;
+    private double montoFinal;
     private String tipoTransaccion;
-    public List<Cliente> clientesAtendidos;
+    private int totalClientesAtendidos;
+    private int totalTiempoEspera;
+    private int totalTiempoAtencion;
 
-    public Caja(String identificador, double montoInicial, double montoActual, String tipoTransaccion) {
+
+    public Caja(String identificador, double montoInicial, double montoFinal, String tipoTransaccion, int totalClientesAtendidos, int totalTiempoEspera, int totalTiempoAtencion) {
         this.identificador = identificador;
         this.montoInicial = montoInicial;
-        this.montoActual = montoActual;
+        this.montoFinal = montoFinal;
         this.tipoTransaccion = tipoTransaccion;
-        this.clientesAtendidos = new ArrayList<>();
+        this.totalClientesAtendidos = totalClientesAtendidos;
+        this.totalTiempoEspera = totalTiempoEspera;
+        this.totalTiempoAtencion = totalTiempoAtencion;
     }
 
     public Caja() {
         this.identificador = "";
         this.montoInicial = 0;
-        this.montoActual = 0;
+        this.montoFinal = 0;
         this.tipoTransaccion = "";
+        this.totalClientesAtendidos = 0;
+        this.totalTiempoEspera = 0;
+        this.totalTiempoAtencion = 0;
     }
 
     public String getIdentificador() {
@@ -40,12 +45,12 @@ public class Caja {
         this.montoInicial = montoInicial;
     }
 
-    public double getMontoActual() {
-        return montoActual;
+    public double getMontoFinal() {
+        return montoFinal;
     }
 
-    public void setMontoActual(double montoActual) {
-        this.montoActual = montoActual;
+    public void setMontoFinal(double montoFinal) {
+        this.montoFinal = montoFinal;
     }
 
     public String getTipoTransaccion() {
@@ -56,12 +61,28 @@ public class Caja {
         this.tipoTransaccion = tipoTransaccion;
     }
 
-    public List<Cliente> getClientesAtendidos() {
-        return clientesAtendidos;
+    public int getTotalClientesAtendidos() {
+        return totalClientesAtendidos;
     }
 
-    public void setClientesAtendidos(List<Cliente> clientesAtendidos) {
-        this.clientesAtendidos = clientesAtendidos;
+    public void setTotalClientesAtendidos(int totalClientesAtendidos) {
+        this.totalClientesAtendidos = totalClientesAtendidos;
+    }
+
+    public int getTotalTiempoEspera() {
+        return totalTiempoEspera;
+    }
+
+    public void setTotalTiempoEspera(int totalTiempoEspera) {
+        this.totalTiempoEspera = totalTiempoEspera;
+    }
+
+    public int getTotalTiempoAtencion() {
+        return totalTiempoAtencion;
+    }
+
+    public void setTotalTiempoAtencion(int totalTiempoAtencion) {
+        this.totalTiempoAtencion = totalTiempoAtencion;
     }
 
     @Override
@@ -69,9 +90,11 @@ public class Caja {
         return "Caja{" +
                 "identificador='" + identificador + '\'' +
                 ", montoInicial=" + montoInicial +
-                ", montoActual=" + montoActual +
+                ", montoFinal=" + montoFinal +
                 ", tipoTransaccion='" + tipoTransaccion + '\'' +
+                ", totalClientesAtendidos=" + totalClientesAtendidos +
+                ", totalTiempoEspera=" + totalTiempoEspera +
+                ", totalTiempoAtencion=" + totalTiempoAtencion +
                 '}';
     }
-
 }
