@@ -1,3 +1,4 @@
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.*;
 import java.io.*;
@@ -85,7 +86,7 @@ public class Banco {
         identificador = leer.nextLine();
 
         System.out.println("Ingrese el monto inicial de la caja: ");
-        montoInicial = Double.parseDouble(nf.format(leer.nextLine()));
+        montoInicial = Double.parseDouble(leer.nextLine());
 
 
         System.out.println("Ingrese el tipo de transacción que va a atender la caja: ");
