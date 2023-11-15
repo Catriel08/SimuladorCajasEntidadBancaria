@@ -5,15 +5,17 @@ public class Caja {
 
     private String identificador;
     private double montoInicial;
+    private double montoActual;
     private double montoFinal;
     private String tipoTransaccion;
     private int totalClientesAtendidos;
     private int clientesPorAtender;
     private List<Cliente> clientesEnEspera;
 
-    public Caja(String identificador, double montoInicial, double montoFinal, String tipoTransaccion, int totalClientesAtendidos, int clientesPorAtender) {
+    public Caja(String identificador, double montoInicial, double montoActual, double montoFinal, String tipoTransaccion, int totalClientesAtendidos, int clientesPorAtender) {
         this.identificador = identificador;
         this.montoInicial = montoInicial;
+        this.montoActual = montoActual;
         this.montoFinal = montoFinal;
         this.tipoTransaccion = tipoTransaccion;
         this.totalClientesAtendidos = totalClientesAtendidos;
@@ -24,6 +26,7 @@ public class Caja {
     public Caja() {
         this.identificador = "";
         this.montoInicial = 0;
+        this.montoActual = 0;
         this.montoFinal = 0;
         this.tipoTransaccion = "";
         this.totalClientesAtendidos = 0;
@@ -37,6 +40,17 @@ public class Caja {
     public void incrementarClientesPorAtender() {
         // Incrementar el contador de clientes por atender
         clientesPorAtender++;
+    }
+
+    public void incrementarTotalClientesAtendidos() {
+        totalClientesAtendidos++;
+    }
+
+    // Método para decrementar el contador de clientes por atender
+    public void decrementarClientesPorAtender() {
+        if (clientesPorAtender > 0) {
+            clientesPorAtender--;
+        }
     }
 
     public String getIdentificador() {
@@ -53,6 +67,14 @@ public class Caja {
 
     public void setMontoInicial(double montoInicial) {
         this.montoInicial = montoInicial;
+    }
+
+    public double getMontoActual() {
+        return montoActual;
+    }
+
+    public void setMontoActual(double montoActual) {
+        this.montoActual = montoActual;
     }
 
     public double getMontoFinal() {
