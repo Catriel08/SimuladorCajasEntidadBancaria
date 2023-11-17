@@ -71,7 +71,6 @@ public class Banco {
 
     public void agregarCaja()
     {
-
         String identificador;
         double montoInicial;
         double montoActual;
@@ -82,21 +81,38 @@ public class Banco {
         int totalTiempoEspera;
         int totalTiempoAtencion;
 
+        // Le pedimos al usuario el identificador para buscar la caja
         System.out.println("Ingrese el identificador de la caja: ");
         identificador = leer.nextLine();
+
+        // Verificar si el identificador ya está asignado a una caja existente
+        if (existeCajaConIdentificador(identificador)) {
+            System.out.println("La caja con el identificador " + identificador + " ya existe. Elija otro identificador.");
+            return;
+        }
 
         System.out.println("Ingrese el monto inicial de la caja: ");
         montoInicial = Double.parseDouble(leer.nextLine());
 
-
-        System.out.println("Ingrese el tipo de transacción que va a atender la caja: ");
+        System.out.println("Ingrese el tipo de transacción que va a atender la caja (un solo tipo de transacción por caja): ");
         tipoTransaccion = leer.nextLine();
 
-
-        Caja nuevaCaja = new Caja(identificador,montoInicial,montoActual=montoInicial, montoFinal=montoInicial,tipoTransaccion,0,0);
+        Caja nuevaCaja = new Caja(identificador, montoInicial, montoInicial, montoInicial, tipoTransaccion, 0, 0);
         cajas.add(nuevaCaja);
 
         System.out.println("\nCaja agregada correctamente.");
+    }
+
+    // Método para verificar si el identificador ya está asignado a una caja existente
+    private boolean existeCajaConIdentificador(String identificador) {
+        for (int i = 0; i< cajas.size(); i++)
+        {
+            Caja banco = (Caja) cajas.get(i);
+            if (banco.getIdentificador().compareToIgnoreCase(identificador)==0) {
+                return true; // El identificador ya está asignado
+            }
+        }
+        return false; // El identificador no está asignado
 
     }
 
@@ -378,6 +394,12 @@ public class Banco {
         System.out.println("Ingrese el identificador del cliente: ");
         String identificadorCliente = leer.nextLine();
 
+        // Verificar si el identificador ya está asignado a un cliente existente
+        if (existeClienteConIdentificador(identificadorCliente)) {
+            System.out.println("El cliente con el identificador " + identificadorCliente + " ya existe. Por favor, elija otro identificador.");
+            return;
+        }
+
         System.out.println("Ingrese el nombre del cliente:");
         String nombreCliente = leer.nextLine();
 
@@ -419,14 +441,18 @@ public class Banco {
                     System.out.println("Ingrese la cantidad de dinero a retirar:");
                     double cantidadRetirar = Double.parseDouble(leer.nextLine());
                     if (cantidadRetirar <= cajaSeleccionada.getMontoInicial() && nuevoCliente.getSaldoCuentaCliente() >= cantidadRetirar) {
+                        System.out.println("");
+                        System.out.println("Cliente " + nombreCliente + " fue asignado a la caja " + cajaSeleccionada.getIdentificador());
                         nuevoCliente.setSaldoCuentaCliente(nuevoCliente.getSaldoCuentaCliente() - cantidadRetirar);
                         cajaSeleccionada.setMontoActual(cajaSeleccionada.getMontoActual() - cantidadRetirar);
                         cajaSeleccionada.setMontoFinal(cajaSeleccionada.getMontoFinal() - cantidadRetirar);
-                        System.out.println("\nRetiro exitoso. Nuevo monto en la caja: " + cajaSeleccionada.getMontoFinal());
+                        System.out.println("Retiro exitoso. Nuevo monto en la caja: " + cajaSeleccionada.getMontoFinal());
+                        System.out.println("El cliente " + nombreCliente + " esta en espera para ser despachado de la caja " + cajaSeleccionada.getIdentificador());
                     } else {
-                        System.out.println("No tiene suficiente dinero en la cuenta para retirar o no hay suficiente dinero en la caja para el retiro solicitado");
+                        System.out.println("");
                         System.out.println("Cliente " + nombreCliente + " fue asignado a la caja " + cajaSeleccionada.getIdentificador());
-                        //System.out.println("No hay suficiente dinero en la caja para el retiro solicitado.");
+                        System.out.println("No tiene suficiente dinero en la cuenta para retirar o no hay suficiente dinero en la caja para el retiro solicitado");
+                        System.out.println("El cliente " + nombreCliente + " esta en espera para ser despachado de la caja " + cajaSeleccionada.getIdentificador());
                     }
                     break;
 
@@ -437,10 +463,15 @@ public class Banco {
                         nuevoCliente.setSaldoCuentaCliente(nuevoCliente.getSaldoCuentaCliente() - cantidadConsignar);
                         cajaSeleccionada.setMontoActual(cajaSeleccionada.getMontoActual() + cantidadConsignar);
                         cajaSeleccionada.setMontoFinal(cajaSeleccionada.getMontoFinal() + cantidadConsignar);
-                        System.out.println("\nCliente " + nombreCliente + " fue asignado a la caja " + cajaSeleccionada.getIdentificador());
+                        System.out.println("");
+                        System.out.println("Cliente " + nombreCliente + " fue asignado a la caja " + cajaSeleccionada.getIdentificador());
                         System.out.println("Consignación exitosa. Nuevo monto en la caja: " + cajaSeleccionada.getMontoFinal());
+                        System.out.println("El cliente " + nombreCliente + " esta en espera para ser despachado de la caja " + cajaSeleccionada.getIdentificador());
                     }else {
+                        System.out.println("");
+                        System.out.println("Cliente " + nombreCliente + " fue asignado a la caja " + cajaSeleccionada.getIdentificador());
                         System.out.println("No tiene suficiente dinero en la cuenta para consignar");
+                        System.out.println("El cliente " + nombreCliente + " esta en espera para ser despachado de la caja " + cajaSeleccionada.getIdentificador());
                     }
                     break;
 
@@ -448,21 +479,26 @@ public class Banco {
                     System.out.println("Ingrese la cantidad a pagar:");
                     double cantidadPagar = Double.parseDouble(leer.nextLine());
                     if (nuevoCliente.getSaldoCuentaCliente() >= cantidadPagar) {
+                        System.out.println("");
                         System.out.println("Cliente " + nombreCliente + " fue asignado a la caja " + cajaSeleccionada.getIdentificador());
                         nuevoCliente.setSaldoCuentaCliente(nuevoCliente.getSaldoCuentaCliente() - cantidadPagar);
                         cajaSeleccionada.setMontoActual(cajaSeleccionada.getMontoActual() + cantidadPagar);
                         cajaSeleccionada.setMontoFinal(cajaSeleccionada.getMontoFinal() + cantidadPagar);
-                        System.out.println("\nPago de servicios exitoso. Nuevo monto en la caja: " + cajaSeleccionada.getMontoFinal());
+                        System.out.println("Pago de servicios exitoso. Nuevo monto en la caja: " + cajaSeleccionada.getMontoFinal());
+                        System.out.println("El cliente " + nombreCliente + " esta en espera para ser despachado de la caja " + cajaSeleccionada.getIdentificador());
                     }else {
+                        System.out.println("");
+                        System.out.println("Cliente " + nombreCliente + " fue asignado a la caja " + cajaSeleccionada.getIdentificador());
                         System.out.println("No tiene suficiente dinero en la cuenta para pagar los servicios");
+                        System.out.println("El cliente " + nombreCliente + " esta en espera para ser despachado de la caja " + cajaSeleccionada.getIdentificador());
                     }
                     break;
 
                 default:
-                    System.out.println("Tipo de transacción no reconocido.");
+                    System.out.println("Tipo de transacción no reconocido, el tipo de transacción debe ser retiro,consignacion o pago de servicios");
             }
 
-            System.out.println("Cliente " + nombreCliente + " fue asignado a la caja " + cajaSeleccionada.getIdentificador());
+            //System.out.println("Cliente " + nombreCliente + " fue asignado a la caja " + cajaSeleccionada.getIdentificador());
             clientes.add(nuevoCliente);
             System.out.println("Cliente " + nombreCliente + " fue agregado a la lista de clientes.");
         } else {
@@ -470,6 +506,18 @@ public class Banco {
         }
     }
 
+    // Método para verificar si el identificador del cliente ya está asignado a un cliente existente
+    private boolean existeClienteConIdentificador(String identificadorCliente) {
+
+        for (int i = 0; i< clientes.size(); i++)
+        {
+            Cliente banco = (Cliente) clientes.get(i);
+            if (banco.getIdentificadorCliente().compareToIgnoreCase(identificadorCliente)==0) {
+                return true; // El identificador ya está asignado
+            }
+        }
+        return false; // El identificador no está asignado
+    }
 
     public void buscarClientePorNombre()
     {
